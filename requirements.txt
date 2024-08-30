@@ -1,4 +1,5 @@
 langchain
+langchain_community
 langgraph
 tavily-python
 BeautifulSoup4
