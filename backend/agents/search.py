@@ -1,5 +1,7 @@
 from tavily import TavilyClient
 import os
+from deep_translator import GoogleTranslator
+
 
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
@@ -7,9 +9,16 @@ tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 class SearchAgent:
     def __init__(self):
         pass
+    def translate_to_english(self, text):
+        translator = GoogleTranslator(source='auto', target='en')
+        return translator.translate(text)
+        
+     def search_tavily(self, query: str):
+        translated_query = self.translate_to_english(query)
+        print("query = ",query)
+        print("translated_query = ", translated_query)
 
-    def search_tavily(self, query: str):
-        results = tavily_client.search(query=query, topic="news", max_results=10, include_images=True)
+        results = tavily_client.search(query=translated_query, topic="news", max_results=10, include_images=True)
         sources = results["results"]
         try:
             image = results["images"][0]
